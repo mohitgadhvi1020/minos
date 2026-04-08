@@ -1,4 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
+import { writeFileSync, existsSync } from "fs";
+import { join } from "path";
+import { tmpdir } from "os";
 import type { Task } from "./types";
 
 const MODEL = "gemini-2.5-pro";
@@ -6,6 +9,15 @@ const MODEL = "gemini-2.5-pro";
 let _ai: GoogleGenAI | null = null;
 function getAI(): GoogleGenAI {
   if (!_ai) {
+    // If GOOGLE_APPLICATION_CREDENTIALS_JSON is set (Vercel), write it to a temp file
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON && !process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+      const credPath = join(tmpdir(), "gcp-credentials.json");
+      if (!existsSync(credPath)) {
+        writeFileSync(credPath, process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+      }
+      process.env.GOOGLE_APPLICATION_CREDENTIALS = credPath;
+    }
+
     _ai = new GoogleGenAI({
       vertexai: true,
       project: process.env.GOOGLE_CLOUD_PROJECT!,
