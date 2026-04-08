@@ -60,14 +60,18 @@ export default function TaskCard({ task, compact = false, linkedTasks }: TaskCar
         )}
       >
         <button
-          onClick={() => handleStatusChange(task.status === "done" ? "todo" : "done")}
-          className={cn(
-            "w-4 h-4 rounded border-2 flex-shrink-0 transition-colors",
-            task.status === "done"
-              ? "bg-accent border-accent"
-              : "border-muted-foreground hover:border-accent"
-          )}
-        />
+          onClick={(e) => { e.stopPropagation(); handleStatusChange(task.status === "done" ? "todo" : "done"); }}
+          className="flex items-center justify-center w-8 h-8 -m-2 flex-shrink-0"
+        >
+          <span
+            className={cn(
+              "w-4 h-4 rounded border-2 transition-colors",
+              task.status === "done"
+                ? "bg-accent border-accent"
+                : "border-muted-foreground hover:border-accent"
+            )}
+          />
+        </button>
         <span
           className={cn(
             "text-sm flex-1 truncate",
@@ -87,14 +91,18 @@ export default function TaskCard({ task, compact = false, linkedTasks }: TaskCar
     <div className="border border-border rounded-xl p-4 space-y-3 bg-card hover:shadow-sm transition-shadow animate-fade-in">
       <div className="flex items-start gap-3">
         <button
-          onClick={() => handleStatusChange(task.status === "done" ? "todo" : "done")}
-          className={cn(
-            "w-5 h-5 rounded border-2 flex-shrink-0 mt-0.5 transition-colors",
-            task.status === "done"
-              ? "bg-accent border-accent"
-              : "border-muted-foreground hover:border-accent"
-          )}
-        />
+          onClick={(e) => { e.stopPropagation(); handleStatusChange(task.status === "done" ? "todo" : "done"); }}
+          className="flex items-center justify-center w-10 h-10 -m-2 flex-shrink-0"
+        >
+          <span
+            className={cn(
+              "w-5 h-5 rounded border-2 transition-colors",
+              task.status === "done"
+                ? "bg-accent border-accent"
+                : "border-muted-foreground hover:border-accent"
+            )}
+          />
+        </button>
         <div className="flex-1 min-w-0">
           <h3
             className={cn(

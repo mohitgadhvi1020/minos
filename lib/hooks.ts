@@ -44,10 +44,17 @@ async function apiFetch<T>(url: string, options?: RequestInit): Promise<T> {
   return res.json();
 }
 
+const SWR_OPTIONS = {
+  dedupingInterval: 10000,     // dedupe identical requests within 10s
+  revalidateOnFocus: false,    // don't refetch on window focus
+  revalidateOnReconnect: false, // don't refetch on reconnect
+  errorRetryCount: 2,          // max 2 retries on error
+};
+
 // --- Thoughts ---
 export function useThoughts() {
   const fetcher: Fetcher<Thought[], string> = () => apiFetch<Thought[]>("/api/thoughts");
-  return useSWR("thoughts", fetcher);
+  return useSWR("thoughts", fetcher, SWR_OPTIONS);
 }
 
 export async function createThought(content: string, source: "text" | "voice") {
@@ -62,7 +69,7 @@ export async function createThought(content: string, source: "text" | "voice") {
 // --- Tasks ---
 export function useTasks() {
   const fetcher: Fetcher<Task[], string> = () => apiFetch<Task[]>("/api/tasks");
-  return useSWR("tasks", fetcher);
+  return useSWR("tasks", fetcher, SWR_OPTIONS);
 }
 
 export async function createTask(task: Partial<Task>) {
@@ -91,7 +98,7 @@ export async function deleteTask(id: string) {
 // --- Task Links ---
 export function useTaskLinks() {
   const fetcher: Fetcher<TaskLink[], string> = () => apiFetch<TaskLink[]>("/api/tasks?links=true");
-  return useSWR("task-links", fetcher);
+  return useSWR("task-links", fetcher, SWR_OPTIONS);
 }
 
 export async function createTaskLink(link: Omit<TaskLink, "id">) {
@@ -106,7 +113,7 @@ export async function createTaskLink(link: Omit<TaskLink, "id">) {
 // --- Habits ---
 export function useHabits() {
   const fetcher: Fetcher<HabitWithLogs[], string> = () => apiFetch<HabitWithLogs[]>("/api/habits");
-  return useSWR("habits", fetcher);
+  return useSWR("habits", fetcher, SWR_OPTIONS);
 }
 
 export async function createHabit(habit: Partial<Habit>) {
@@ -139,7 +146,7 @@ export async function toggleHabitLog(habitId: string, date: string) {
 export function useDailyGoals(date: string) {
   const fetcher: Fetcher<DailyGoal, string> = () =>
     apiFetch<DailyGoal>(`/api/thoughts?daily_goals=true&date=${date}`);
-  return useSWR(`daily-goals-${date}`, fetcher);
+  return useSWR(`daily-goals-${date}`, fetcher, SWR_OPTIONS);
 }
 
 export async function saveDailyGoals(date: string, goals: DailyGoal["goals"], reflection?: string) {
@@ -153,7 +160,7 @@ export async function saveDailyGoals(date: string, goals: DailyGoal["goals"], re
 // --- Core Identity ---
 export function useIdentity() {
   const fetcher: Fetcher<CoreIdentity[], string> = () => apiFetch<CoreIdentity[]>("/api/thoughts?identity=true");
-  return useSWR("identity", fetcher);
+  return useSWR("identity", fetcher, SWR_OPTIONS);
 }
 
 export async function saveIdentityTrait(trait: Partial<CoreIdentity>) {
