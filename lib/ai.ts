@@ -10,7 +10,8 @@ let _ai: GoogleGenAI | null = null;
 function getAI(): GoogleGenAI {
   if (!_ai) {
     // If GOOGLE_APPLICATION_CREDENTIALS_JSON is set (Vercel), write it to a temp file
-    if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON && !process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    // This takes priority over GOOGLE_APPLICATION_CREDENTIALS (file path)
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
       const credPath = join(tmpdir(), "gcp-credentials.json");
       if (!existsSync(credPath)) {
         writeFileSync(credPath, process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
