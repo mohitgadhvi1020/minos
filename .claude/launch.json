@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Next.js Dev Server",
+      "runtimeExecutable": "/bin/bash",
+      "runtimeArgs": ["-c", "export PATH=/opt/homebrew/Cellar/node/25.9.0_1/bin:$PATH && cd /Users/mohit/Downloads/mindos && exec node_modules/.bin/next dev"],
+      "port": 3000
+    },
+    {
+      "name": "Next.js Production Server",
+      "runtimeExecutable": "/opt/homebrew/Cellar/node/25.9.0_1/bin/node",
+      "runtimeArgs": ["node_modules/.bin/next", "start"],
+      "port": 3000
+    }
+  ]
+}

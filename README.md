@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MindOS — Your Personal Thought Operating System
 
-## Getting Started
+A minimalistic personal productivity app that captures your thoughts via voice or text, uses AI to extract tasks and suggest priorities, tracks habits, sets daily goals, and builds a profile of who you are.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Supabase Database
 
-## Learn More
+1. Create a free project at [supabase.com](https://supabase.com)
+2. Go to **SQL Editor** and run the contents of `supabase/schema.sql`
+3. Copy your **Project URL** and **Anon Key** from Settings > API
 
-To learn more about Next.js, take a look at the following resources:
+### 2. API Keys
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Get an OpenAI API key from [platform.openai.com](https://platform.openai.com) (required for voice transcription via Whisper)
+2. Optionally get an Anthropic API key from [console.anthropic.com](https://console.anthropic.com)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Configure in App
 
-## Deploy on Vercel
+Go to **Settings** in the app and enter:
+- Supabase Project URL and Anon Key
+- OpenAI API key
+- Anthropic API key (optional)
+- Choose your preferred AI provider
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+All keys are stored locally in your browser's localStorage — never sent to any server except the respective API providers.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+
+- **Brain Dump**: Capture thoughts via voice (OpenAI Whisper) or text
+- **AI Processing**: Extracts tasks, suggests priorities, identifies follow-ups and linked tasks
+- **Task Management**: Priority-based task list with status tracking and task linking
+- **Habit Tracker**: Daily/weekly habit tracking with streak counting
+- **Daily Goals**: Set and track daily goals
+- **Core Self**: Define your values, personality, goals, and principles
+- **Dark/Light Mode**: Minimalistic design with theme switching
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- Tailwind CSS v4
+- Supabase (PostgreSQL)
+- OpenAI Whisper API
+- OpenAI GPT-4o / Anthropic Claude
+- SWR for data fetching
+- TypeScript
