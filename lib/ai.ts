@@ -1,13 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import type { Task } from "./types";
 
-const ai = new GoogleGenAI({
-  vertexai: true,
-  project: process.env.GOOGLE_CLOUD_PROJECT!,
-  location: process.env.GOOGLE_CLOUD_LOCATION!,
-});
-
 const MODEL = "gemini-2.5-pro";
+
+let _ai: GoogleGenAI | null = null;
+function getAI(): GoogleGenAI {
+  if (!_ai) {
+    _ai = new GoogleGenAI({
+      vertexai: true,
+      project: process.env.GOOGLE_CLOUD_PROJECT!,
+      location: process.env.GOOGLE_CLOUD_LOCATION!,
+    });
+  }
+  return _ai;
+}
 
 const SYSTEM_PROMPT = `You are MindOS, a personal thought assistant. Analyze the user's thought and return structured JSON.
 
@@ -48,7 +54,7 @@ ${req.existingTasks.length > 0
     : "No existing tasks yet."
   }`;
 
-  const response = await ai.models.generateContent({
+  const response = await getAI().models.generateContent({
     model: MODEL,
     config: {
       systemInstruction: SYSTEM_PROMPT,
